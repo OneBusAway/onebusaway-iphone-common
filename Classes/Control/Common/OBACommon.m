@@ -16,7 +16,7 @@
 
 #import "OBACommon.h"
 
-NSString * const OBAErrorDomain = @"org.onebusaway.iphone";
+NSString * const OBAErrorDomain = @"org.onebusaway.iphone2";
 
 const NSInteger kOBAErrorDuplicateEntity = 1000;
 const NSInteger kOBAErrorMissingFieldInData = 1001;
@@ -42,6 +42,17 @@ NSString * const OBAApplicationDidCompleteNetworkRequestNotification = @"OBAAppl
 }
 
 @end
+
+@implementation UIView (OBAConvenienceMethods)
+
+- (void) setOrigin:(CGPoint)point {
+    CGRect rect = self.bounds;
+    rect.origin = point;
+    [self setFrame:rect];
+}
+
+@end
+
 
 @implementation OBACommon
 

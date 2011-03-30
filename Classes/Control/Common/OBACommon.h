@@ -50,6 +50,10 @@ typedef enum {
 - (NSComparisonResult) compareUsingNumberSearch:(NSString*)aString;
 @end
 
+@interface UIView (OBAConvenienceMethods)
+- (void) setOrigin:(CGPoint)point;
+@end
+
 
 @interface OBACommon : NSObject
 
