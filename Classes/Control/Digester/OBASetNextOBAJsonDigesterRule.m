@@ -23,7 +23,8 @@
 @synthesize onlyIfNotNull = _onlyIfNotNull;
 
 - (id) initWithSelector:(SEL)selector {
-	if( self = [super init] ) {
+    self = [super init];
+	if( self ) {
 		_selector = selector;
 		_onlyIfNotNull = TRUE;
 	}
@@ -32,7 +33,7 @@
 
 - (void) end:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
 	
-	if( _onlyIfNotNull && (value == nil || value == kCFNull) )
+	if( _onlyIfNotNull && (value == nil || value == ((id)kCFNull)) )
 		return;
 	
 	id a = [context peek:0];

@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-#import <Foundation/Foundation.h>
+#import "OBASetDatePropertyJsonDigesterRule.h"
 
 
-@interface OBAPlacemark : NSObject <NSCoding,MKAnnotation> {
-	NSString * _address;
-	CLLocationCoordinate2D _coordinate;
+@implementation OBASetDatePropertyJsonDigesterRule
+
+- (void) begin:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
+
+	if( [value isKindOfClass:[NSNumber class]] ) {
+        NSNumber * n = value;
+        NSTimeInterval interval = [n longLongValue] / 1000.0;
+        NSDate * date = [NSDate dateWithTimeIntervalSince1970:interval];
+        [super begin:context name:name value:date];        
+    }
 }
-
-@property (nonatomic,retain) NSString * address;
-@property (nonatomic) CLLocationCoordinate2D coordinate;
-
--(id) initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate;
--(id) initWithCoder:(NSCoder*)coder;
 
 @end

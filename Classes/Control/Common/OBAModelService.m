@@ -21,6 +21,7 @@ static const float kSearchRadius = 400;
 
 - (CLLocation*) currentOrDefaultLocationToSearch;
 - (NSString*) escapeStringForUrl:(NSString*)url;
+- (NSString*) argsFromDictionary:(NSDictionary*)args;
 
 @end
 
@@ -278,7 +279,35 @@ static const float kSearchRadius = 400;
 	return request;
 }
 
+- (id<OBAModelServiceRequest>) planTripFrom:(CLLocationCoordinate2D)from to:(CLLocationCoordinate2D)to time:(NSDate*)time arriveBy:(BOOL)arriveBy options:(NSDictionary*)options delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context {
+    
+    NSString * url = [NSString stringWithFormat:@"/api/where/plan-trip.json"];
+	
+	NSMutableDictionary * args = [[NSMutableDictionary alloc] init];
+    
+    NSTimeInterval interval = [time timeIntervalSince1970];
+    long long t = (interval * 1000);
+    
+    [args setObject:[NSString stringWithFormat:@"%lld",t] forKey:@"time"];
+    [args setObject:[NSString stringWithFormat:@"%f",from.latitude] forKey:@"latFrom"];
+    [args setObject:[NSString stringWithFormat:@"%f",from.longitude] forKey:@"lonFrom"];
+    [args setObject:[NSString stringWithFormat:@"%f",to.latitude] forKey:@"latTo"];
+    [args setObject:[NSString stringWithFormat:@"%f",to.longitude] forKey:@"lonTo"];
+    [args setObject:(arriveBy ? @"true" : @"false") forKey:@"arriveBy"];
+    [args setObject:@"true" forKey:@"useRealTime"];
+    
+    // Append all options
+    for (NSString * key in options ) {
+        [args setObject:[options objectForKey:key] forKey:key];
+    }
+        
+	SEL selector = @selector(getItinerariesV2FromJSON:error:);
+	
+    return [self request:url args:[self argsFromDictionary:args] selector:selector delegate:delegate context:context];
+}
+
 @end
+
 
 
 @implementation OBAModelService (Private)
@@ -361,6 +390,18 @@ static const float kSearchRadius = 400;
 	[escaped replaceOccurrencesOfString:@"\"" withString:@"%22" options:NSCaseInsensitiveSearch range:wholeString];
 	[escaped replaceOccurrencesOfString:@"\n" withString:@"%0A" options:NSCaseInsensitiveSearch range:wholeString];
 	return escaped;
+}
+
+- (NSString*) argsFromDictionary:(NSDictionary*)args {
+    NSMutableString * s = [NSMutableString string];
+    for (NSString * key in args ) {
+        if( [s length] > 0 )
+            [s appendString:@"&"];
+        [s appendString:[self escapeStringForUrl:key]];
+        [s appendString:@"="];
+        [s appendString:[self escapeStringForUrl:[args objectForKey:key]]];
+    }
+    return s;
 }
 
 @end

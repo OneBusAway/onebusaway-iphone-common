@@ -23,7 +23,8 @@
 @synthesize coordinate = _coordinate;
 
 -(id) initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate {
-	if( self = [super init] ) {
+    self = [super init];
+	if( self ) {
 		_address = [address retain];
 		_coordinate = coordinate;
 	}
@@ -31,7 +32,8 @@
 }
 
 - (id) initWithCoder:(NSCoder*)coder {
-	if( self = [super init] ) {
+    self = [super init];
+	if( self ) {
 		_address =  [[coder decodeObjectForKey:@"address"] retain];
 		NSData * data = [coder decodeObjectForKey:@"coordinate"];
 		[data getBytes:&_coordinate];

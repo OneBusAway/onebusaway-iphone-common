@@ -42,6 +42,8 @@
 
 - (OBAEntryWithReferencesV2*) getVehicleStatusV2FromJSON:(NSDictionary*)json error:(NSError**)error;
 
+- (OBAEntryWithReferencesV2*) getItinerariesV2FromJSON:(NSDictionary*)json error:(NSError**)error;
+
 - (NSString*) getShapeV2FromJSON:(NSDictionary*)json error:(NSError*)error;
 
 

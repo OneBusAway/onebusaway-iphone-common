@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-#import <Foundation/Foundation.h>
+#import "OBASetPropertyJsonDigesterRule.h"
 
+@interface OBASetDatePropertyJsonDigesterRule : OBASetPropertyJsonDigesterRule {
 
-@interface OBAPlacemark : NSObject <NSCoding,MKAnnotation> {
-	NSString * _address;
-	CLLocationCoordinate2D _coordinate;
 }
-
-@property (nonatomic,retain) NSString * address;
-@property (nonatomic) CLLocationCoordinate2D coordinate;
-
--(id) initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate;
--(id) initWithCoder:(NSCoder*)coder;
 
 @end

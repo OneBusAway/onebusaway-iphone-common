@@ -6,7 +6,8 @@
 @synthesize references = _references;
 
 - (id) initWithReferences:(OBAReferencesV2*)refs {
-	if( self = [super init]) {
+    self = [super init];
+	if( self ) {
 		self.references = refs;
 	}
 	return self;
