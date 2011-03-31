@@ -119,3 +119,53 @@
 
 
 @end
+
+
+
+@implementation UITableViewCell (OBAConvenienceMethods)
+
++(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView cellId:(NSString*)cellId {
+	
+	// Try to retrieve from the table view a now-unused cell with the given identifier
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+	
+	// If no cell is available, create a new one using the given identifier
+	if (cell == nil) {
+		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellId] autorelease];
+	}
+	
+	return cell;
+}
+
++(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView {
+	static NSString *cellId = @"DefaultIdentifier";
+	return [self getOrCreateCellForTableView:tableView cellId:cellId];
+}
+
++(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView style:(UITableViewCellStyle)style {
+    
+	NSString * cellId = [NSString stringWithFormat:@"DefaultIdentifier-%d",style];
+	
+	// Try to retrieve from the table view a now-unused cell with the given identifier
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+	
+	// If no cell is available, create a new one using the given identifier
+	if (cell == nil)
+		cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:cellId] autorelease];
+    
+	return cell;
+}
+
++(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView fromResource:(NSString*)resourceName {
+	
+	UITableViewCell * cell = (UITableViewCell*) [tableView dequeueReusableCellWithIdentifier:resourceName];
+	
+	if (cell == nil) {
+		NSArray * nib = [[NSBundle mainBundle] loadNibNamed:resourceName owner:self options:nil];
+		cell = [nib objectAtIndex:0];
+	}
+	
+	return cell;
+}
+
+@end
