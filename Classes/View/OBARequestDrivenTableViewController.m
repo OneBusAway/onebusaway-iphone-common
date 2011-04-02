@@ -1,5 +1,4 @@
 #import "OBARequestDrivenTableViewController.h"
-#import "OBAUITableViewCell.h"
 #import "OBALogger.h"
 
 
@@ -22,7 +21,8 @@
 @synthesize showUpdateTime = _showUpdateTime;
 
 - (id) initWithApplicationContext:(OBAApplicationContext*)appContext { 
-	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+    self = [super initWithStyle:UITableViewStyleGrouped];
+	if (self) {
 		_appContext = [appContext retain];
 		CGRect r = CGRectMake(0, 0, 160, 33);
 		_progressView = [[OBAProgressIndicatorView alloc] initWithFrame:r];

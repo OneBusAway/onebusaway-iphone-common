@@ -15,17 +15,11 @@
  */
 
 //#import <Foundation/Foundation.h>
-#import "OBAStop.h"
 
 
 @interface OBAUIKit : NSObject
 
 +(void) addToolbar:(UIToolbar*)toolbar toParentView:(UIView*) parentView withMainView:(UIView*)view animated:(BOOL)animated;
-
-//+ (void) showStopView:(OBAStop*)stop withContext:(OBAViewContext*)context navigationController:(UINavigationController*)navigationController;
-//+ (void) replaceWithStopView:(OBAStop*)stop withContext:(OBAViewContext*)context navigationController:(UINavigationController*)navigationController;
-
-//+ (OBANavigationTarget*) getNavigationTargetForStop:(OBAStop*)stop;
 
 @end
 

@@ -466,14 +466,19 @@ static NSString * const kReferences = @"references";
 
 - (void) addTransitLegV2RulesWithPrefix:(NSString*)prefix {
     [self addObjectCreateRule:[OBATransitLegV2 class] forPrefix:prefix];
-	[self addSetPropertyRule:@"tripId" forPrefix:[self extendPrefix:prefix withValue:@"tripId"]];
+	[self addSetOptionalPropertyRule:@"tripId" forPrefix:[self extendPrefix:prefix withValue:@"tripId"]];
     [self addSetPropertyRule:@"serviceDate" forPrefix:[self extendPrefix:prefix withValue:@"serviceDate"]];
-    [self addSetPropertyRule:@"fromStopId" forPrefix:[self extendPrefix:prefix withValue:@"fromStopId"]];
+    
+    NSString * frequencyPrefix = [self extendPrefix:prefix withValue:@"frequency"];
+	[self addFrequencyV2RulesWithPrefix:frequencyPrefix];
+	[self addSetNext:@selector(setFrequency:) forPrefix:frequencyPrefix];
+
+    [self addSetOptionalPropertyRule:@"fromStopId" forPrefix:[self extendPrefix:prefix withValue:@"fromStopId"]];
     [self addSetPropertyRule:@"fromStopSequence" forPrefix:[self extendPrefix:prefix withValue:@"fromStopSequence"]];
-    [self addSetPropertyRule:@"toStopId" forPrefix:[self extendPrefix:prefix withValue:@"toStopId"]];
+    [self addSetOptionalPropertyRule:@"toStopId" forPrefix:[self extendPrefix:prefix withValue:@"toStopId"]];
     [self addSetPropertyRule:@"toStopSequence" forPrefix:[self extendPrefix:prefix withValue:@"toStopSequence"]];
-    [self addSetPropertyRule:@"tripHeadsign" forPrefix:[self extendPrefix:prefix withValue:@"tripHeadsign"]];
-    [self addSetPropertyRule:@"path" forPrefix:[self extendPrefix:prefix withValue:@"path"]];
+    [self addSetOptionalPropertyRule:@"tripHeadsign" forPrefix:[self extendPrefix:prefix withValue:@"tripHeadsign"]];
+    [self addSetOptionalPropertyRule:@"path" forPrefix:[self extendPrefix:prefix withValue:@"path"]];
     [self addSetPropertyRule:@"scheduledDepartureTime" forPrefix:[self extendPrefix:prefix withValue:@"scheduledDepartureTime"]];
     [self addSetPropertyRule:@"predictedDepartureTime" forPrefix:[self extendPrefix:prefix withValue:@"predictedDepartureTime"]];
     [self addSetPropertyRule:@"scheduledArrivalTime" forPrefix:[self extendPrefix:prefix withValue:@"scheduledArrivalTime"]];
@@ -483,8 +488,8 @@ static NSString * const kReferences = @"references";
 
 - (void) addStreetLegV2RulesWithPrefix:(NSString*)prefix { 
     [self addObjectCreateRule:[OBAStreetLegV2 class] forPrefix:prefix];
-	[self addSetPropertyRule:@"streetName" forPrefix:[self extendPrefix:prefix withValue:@"streetName"]];
-    [self addSetPropertyRule:@"path" forPrefix:[self extendPrefix:prefix withValue:@"path"]];
+	[self addSetOptionalPropertyRule:@"streetName" forPrefix:[self extendPrefix:prefix withValue:@"streetName"]];
+    [self addSetOptionalPropertyRule:@"path" forPrefix:[self extendPrefix:prefix withValue:@"path"]];
     [self addSetPropertyRule:@"distance" forPrefix:[self extendPrefix:prefix withValue:@"distance"]];
 }
 

@@ -22,7 +22,8 @@
 @synthesize optional = _optional;
 
 - (id) initWithPropertyName:(NSString*)propertyName {
-	if( self = [super init] ) {
+    self = [super init];
+	if( self ) {
 		[self initWithPropertyName:propertyName onlyIfNeeded:FALSE];
 		_propertyName = [propertyName retain];		
 	}
@@ -30,7 +31,8 @@
 }
 
 - (id) initWithPropertyName:(NSString*)propertyName onlyIfNeeded:(BOOL)onlyIfNeeded {
-	if( self = [super init] ) {
+    self = [super init];
+	if( self ) {
 		_propertyName = [propertyName retain];		
 		_onlyIfNeeded = onlyIfNeeded;
 	}

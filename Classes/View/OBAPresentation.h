@@ -1,6 +1,7 @@
 #import "OBAApplicationContext.h"
 #import "OBAArrivalAndDepartureV2.h"
 #import "OBATripV2.h"
+#import "OBATransitLegV2.h"
 
 
 @interface OBAPresentation : NSObject {
@@ -11,7 +12,11 @@
 
 + (NSString*) getTripHeadsignForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture;
 
++ (NSString*) getTripHeadsignForTransitLeg:(OBATransitLegV2*)transitLeg;
+
 + (NSString*) getTripHeadsignForTrip:(OBATripV2*)trip;
+
++ (NSString*) getRouteShortNameForTransitLeg:(OBATransitLegV2*)transitLeg;
 
 + (NSString*) getRouteShortNameForTrip:(OBATripV2*)trip;
 
@@ -22,8 +27,6 @@
 + (UITableViewCell*) tableViewCellForUnreadServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts tableView:(UITableView*)tableView;
 
 + (UITableViewCell*) tableViewCellForServiceAlerts:(OBAServiceAlertsModel*)serviceAlerts tableView:(UITableView*)tableView;
-
-+ (void) showSituations:(NSArray*)situations withAppContext:(OBAApplicationContext*)appContext navigationController:(UINavigationController*)navigationController args:(NSDictionary*)args;
 
 + (float) computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region;
 										 

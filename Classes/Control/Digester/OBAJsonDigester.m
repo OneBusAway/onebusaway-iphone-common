@@ -54,7 +54,8 @@
 @synthesize verbose = _verbose;
 
 - (id) init {
-	if( self = [super init] ) {
+    self = [super init];
+	if( self ) {
 		_rulesByPrefix = [[NSMutableDictionary alloc] init];
 		_verbose = FALSE;
 	}

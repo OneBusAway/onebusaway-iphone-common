@@ -15,7 +15,6 @@
  */
 
 #import "OBAUIKit.h"
-#import "OBAStopViewController.h"
 
 
 @implementation OBAUIKit
@@ -59,28 +58,6 @@
 	if( animated )
 		[UIView commitAnimations];
 
-}
-
-/*
-+ (void) showStopView:(OBAStop*)stop withContext:(OBAViewContext*)context navigationController:(UINavigationController*)navigationController {
-	NSDictionary * params = [NSMutableDictionary dictionaryWithObject:stop.stopId forKey:@"stopId"];
-	UIViewController * vc = [context getViewControllerForTargetType:OBANavigationTargetTypeStop parameters:params];
-	[navigationController pushViewController:vc animated:TRUE];
-}
-
-+ (void) replaceWithStopView:(OBAStop*)stop withContext:(OBAViewContext*)context navigationController:(UINavigationController*)navigationController  {
-	
-	NSDictionary * params = [NSMutableDictionary dictionaryWithObject:stop.stopId forKey:@"stopId"];
-	UIViewController * vc = [context getViewControllerForTargetType:OBANavigationTargetTypeStop parameters:params];
-
-	// Why do we use a delay here?  For some reason, the Stop Viewer doesn't work unless we add the delay.  I think it's a runloop scheduling issue
-	[navigationController performSelector:@selector(replaceViewControllerWithoutAnimation:) withObject:vc afterDelay:1];
-}
-*/
-
-+ (OBANavigationTarget*) getNavigationTargetForStop:(OBAStop*)stop {
-	NSDictionary * params = [NSMutableDictionary dictionaryWithObject:stop.stopId forKey:@"stopId"];
-	return [[[OBANavigationTarget alloc] initWithTarget:OBANavigationTargetTypeStop parameters:params] autorelease];
 }
 
 @end

@@ -1,7 +1,4 @@
 #import "OBAPresentation.h"
-#import "OBASituationsViewController.h"
-#import "OBASituationViewController.h"
-#import "OBAUITableViewCell.h"
 #import "OBASphericalGeometryLibrary.h"
 #import "UIDeviceExtensions.h"
 
@@ -27,6 +24,13 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
 	return [self getTripHeadsignForTrip:arrivalAndDeparture.trip];
 }
 
++ (NSString*) getTripHeadsignForTransitLeg:(OBATransitLegV2*)transitLeg {
+    if( transitLeg.tripHeadsign ) {
+        return transitLeg.tripHeadsign;
+    }
+    return [self getTripHeadsignForTrip:transitLeg.trip];
+}
+
 + (NSString*) getTripHeadsignForTrip:(OBATripV2*)trip {
 	NSString * name = trip.tripHeadsign;
 	if( name )
@@ -35,6 +39,12 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
 	if( name )
 		return name;
 	return @"Headed somewhere...";
+}
+
++ (NSString*) getRouteShortNameForTransitLeg:(OBATransitLegV2*)transitLeg {
+    if( transitLeg.routeShortName )
+        return transitLeg.routeShortName;
+    return [self getRouteShortNameForTrip:transitLeg.trip];
 }
 
 + (NSString*) getRouteShortNameForTrip:(OBATripV2*)trip {
@@ -116,22 +126,6 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
 	
 	return cell;	
 }	
-
-+ (void) showSituations:(NSArray*)situations withAppContext:(OBAApplicationContext*)appContext navigationController:(UINavigationController*)navigationController args:(NSDictionary*)args {
-	if( [situations count] == 1 ) {
-		OBASituationV2 * situation = [situations objectAtIndex:0];
-		OBASituationViewController * vc = [[OBASituationViewController alloc] initWithApplicationContext:appContext situation:situation];
-		vc.args = args;
-		[navigationController pushViewController:vc animated:TRUE];
-		[vc release];
-	}
-	else {
-		OBASituationsViewController * vc = [[OBASituationsViewController alloc] initWithApplicationContext:appContext situations:situations];
-		vc.args = args;
-		[navigationController pushViewController:vc animated:TRUE];
-		[vc release];
-	}
-}
 
 + (float) computeStopsForRouteAnnotationScaleFactor:(MKCoordinateRegion)region {
 	

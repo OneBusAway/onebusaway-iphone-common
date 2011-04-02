@@ -1,5 +1,4 @@
 #import "OBAListSelectionViewController.h"
-#import "OBAUITableViewCell.h"
 
 
 @implementation OBAListSelectionViewController
