@@ -441,6 +441,8 @@ static NSString * const kReferences = @"references";
     [self addObjectCreateRule:[OBAItineraryV2 class] forPrefix:prefix];
     [self addSetDatePropertyRule:@"startTime" withPrefix:[self extendPrefix:prefix withValue:@"startTime"]];
     [self addSetDatePropertyRule:@"endTime" withPrefix:[self extendPrefix:prefix withValue:@"endTime"]];
+    [self addSetPropertyRule:@"probability" forPrefix:[self extendPrefix:prefix withValue:@"probability"]];
+    [self addSetPropertyRule:@"rawData" forPrefix:prefix];
     
     NSString * legPrefix = [self extendPrefix:prefix withValue:@"legs/[]"];
     [self addLegV2RulesWithPrefix:legPrefix];
@@ -468,6 +470,7 @@ static NSString * const kReferences = @"references";
     [self addObjectCreateRule:[OBATransitLegV2 class] forPrefix:prefix];
 	[self addSetOptionalPropertyRule:@"tripId" forPrefix:[self extendPrefix:prefix withValue:@"tripId"]];
     [self addSetPropertyRule:@"serviceDate" forPrefix:[self extendPrefix:prefix withValue:@"serviceDate"]];
+    [self addSetOptionalPropertyRule:@"vehicleId" forPrefix:[self extendPrefix:prefix withValue:@"tripId"]];
     
     NSString * frequencyPrefix = [self extendPrefix:prefix withValue:@"frequency"];
 	[self addFrequencyV2RulesWithPrefix:frequencyPrefix];

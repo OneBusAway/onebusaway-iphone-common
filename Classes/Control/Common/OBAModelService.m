@@ -302,8 +302,10 @@ static const float kSearchRadius = 400;
     }
         
 	SEL selector = @selector(getItinerariesV2FromJSON:error:);
-	
+    
+    
     return [self request:url args:[self argsFromDictionary:args] selector:selector delegate:delegate context:context];
+    //return [self post:url args:args selector:selector delegate:delegate context:context];
 }
 
 @end

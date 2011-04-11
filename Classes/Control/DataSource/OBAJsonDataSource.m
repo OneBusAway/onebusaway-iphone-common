@@ -208,8 +208,9 @@
 
 - (id) initWithSource:(OBAJsonDataSource*)source withDelegate:(id<OBADataSourceDelegate>)delegate context:(id)context {
 
-	if( self = [super init]) {
-		
+    self = [super init];
+
+	if(self) {		
 		_source = [source retain];
 		_delegate = delegate;
 		_context = [context retain];

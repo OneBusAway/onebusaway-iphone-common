@@ -10,6 +10,7 @@
 
 @property (nonatomic,retain) NSString * tripId;
 @property (nonatomic) long long serviceDate;
+@property (nonatomic,retain) NSString * vehicleId;
 @property (nonatomic,retain) OBAFrequencyV2 * frequency;
 @property (nonatomic,retain) NSString * fromStopId;
 @property (nonatomic) NSInteger fromStopSequence;

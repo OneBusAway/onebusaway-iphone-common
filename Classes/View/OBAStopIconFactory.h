@@ -1,4 +1,5 @@
 #import "OBAStopV2.h"
+#import "OBARouteV2.h"
 
 
 @interface OBAStopIconFactory : NSObject {
@@ -7,5 +8,6 @@
 }
 
 - (UIImage*) getIconForStop:(OBAStopV2*)stop;
+- (UIImage*) getModeIconForRoute:(OBARouteV2*)route;
 
 @end

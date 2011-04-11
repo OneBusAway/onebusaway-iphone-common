@@ -5,6 +5,7 @@
 
 @synthesize tripId;
 @synthesize serviceDate;
+@synthesize vehicleId;
 @synthesize frequency;
 @synthesize fromStopId;
 @synthesize fromStopSequence;
@@ -21,6 +22,7 @@
 
 - (void) dealloc {
     self.tripId = nil;
+    self.vehicleId = nil;
     self.frequency = nil;
     self.fromStopId = nil;
     self.toStopId = nil;

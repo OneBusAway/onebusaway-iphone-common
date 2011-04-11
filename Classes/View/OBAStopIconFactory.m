@@ -6,6 +6,7 @@
 
 - (void) loadIcons;
 - (NSString*) getRouteIconTypeForStop:(OBAStopV2*)stop;
+- (NSString*) getRouteIconTypeForRoute:(OBARouteV2*)route;
 
 @end
 
@@ -13,7 +14,8 @@
 @implementation OBAStopIconFactory
 
 - (id) init {
-	if( self = [super init] ) {
+    self = [super init];
+	if( self ) {
 		[self loadIcons];
 	}
 	return self;
@@ -41,6 +43,11 @@
 		return _defaultStopIcon;
 	
 	return image;
+}
+
+- (UIImage*) getModeIconForRoute:(OBARouteV2*)route {
+    NSString * type = [self getRouteIconTypeForRoute:route];
+    return [UIImage imageNamed:[NSString stringWithFormat:@"Mode-%@.png",type]];
 }
 
 @end
@@ -85,6 +92,19 @@
 		return @"LightRail";
 	else
 		return @"Bus";
+}
+
+- (NSString*) getRouteIconTypeForRoute:(OBARouteV2*)route {
+    switch ([route.routeType intValue]) {
+        case 4:
+            return @"Ferry";
+        case 2:
+            return @"Rail";
+        case 0:
+            return @"LightRail";
+        default:
+            return @"Bus";
+    }
 }
 
 @end
