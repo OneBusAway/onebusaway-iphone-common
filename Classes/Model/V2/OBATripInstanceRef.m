@@ -8,7 +8,8 @@
 @synthesize vehicleId = _vehicleId;
 
 - (id) initWithTripId:(NSString*)tripId serviceDate:(long long)serviceDate vehicleId:(NSString*)vehicleId {
-	if( self = [super init] ) {
+    self = [super init];
+	if( self ) {
 		_tripId = tripId;
 		_serviceDate = serviceDate;
 		_vehicleId = vehicleId;

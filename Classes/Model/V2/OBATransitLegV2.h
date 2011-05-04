@@ -2,7 +2,7 @@
 #import "OBATripV2.h"
 #import "OBAStopV2.h"
 #import "OBAFrequencyV2.h"
-
+#import "OBAArrivalAndDepartureInstanceRef.h"
 
 @interface OBATransitLegV2 : OBAHasReferencesV2 {
     
@@ -30,6 +30,10 @@
 @property (nonatomic,readonly) OBATripV2 * trip;
 @property (nonatomic,readonly) OBAStopV2 * fromStop;
 @property (nonatomic,readonly) OBAStopV2 * toStop;
+
+@property (nonatomic,readonly) OBATripInstanceRef * tripInstanceRef;
+@property (nonatomic,readonly) OBAArrivalAndDepartureInstanceRef * departureInstanceRef;
+@property (nonatomic,readonly) OBAArrivalAndDepartureInstanceRef * arrivalInstanceRef;
 
 
 @end

@@ -149,8 +149,10 @@ static const BOOL kUseLocationTraceInSimulator = FALSE;
 
 -(void) handleNewLocation:(CLLocation*)location {
 	
-	OBALogDebug(@"location: %@", [location description]);
-	
+	//OBALogDebug(@"location: %@", [location description]);
+    //long long t = [location.timestamp timeIntervalSince1970] * 1000;
+	//NSLog(@"location=%lld,%f,%f,%f", t,location.coordinate.latitude, location.coordinate.longitude, location.horizontalAccuracy);
+    
 	@synchronized(self) {
 		
 		/**
@@ -166,7 +168,7 @@ static const BOOL kUseLocationTraceInSimulator = FALSE;
 
 			NSTimeInterval interval = [newTime timeIntervalSinceDate:currentTime];
 			
-			OBALogDebug(@"location time diff: %f", interval);
+			//OBALogDebug(@"location time diff: %f", interval);
 			
 			if ( interval < kSuccessiveLocationComparisonWindow &&
 				[_currentLocation horizontalAccuracy] < [location horizontalAccuracy]) {

@@ -60,4 +60,18 @@
     return self.scheduledArrivalTime;
 }
 
+- (OBATripInstanceRef*) tripInstanceRef {
+    return [OBATripInstanceRef tripInstance:self.tripId serviceDate:self.serviceDate vehicleId:self.vehicleId];
+}
+
+- (OBAArrivalAndDepartureInstanceRef*) departureInstanceRef {
+    return [OBAArrivalAndDepartureInstanceRef refWithTripInstance:self.tripInstanceRef stopId:self.fromStopId stopSequence:self.fromStopSequence];
+}
+
+- (OBAArrivalAndDepartureInstanceRef*) arrivalInstanceRef {
+    return [OBAArrivalAndDepartureInstanceRef refWithTripInstance:self.tripInstanceRef stopId:self.toStopId stopSequence:self.toStopSequence];
+    
+}
+
+
 @end

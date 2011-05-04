@@ -119,11 +119,14 @@
 	return [self getOrCreateCellForTableView:tableView cellId:cellId];
 }
 
-+(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView style:(UITableViewCellStyle)style {
-    
++(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView style:(UITableViewCellStyle)style {    
 	NSString * cellId = [NSString stringWithFormat:@"DefaultIdentifier-%d",style];
-	
-	// Try to retrieve from the table view a now-unused cell with the given identifier
+	return [self getOrCreateCellForTableView:tableView style:style cellId:cellId];
+}
+
++(UITableViewCell*) getOrCreateCellForTableView:(UITableView*)tableView style:(UITableViewCellStyle)style cellId:(NSString*)cellId {
+
+    // Try to retrieve from the table view a now-unused cell with the given identifier
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
 	
 	// If no cell is available, create a new one using the given identifier

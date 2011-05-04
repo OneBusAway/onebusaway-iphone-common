@@ -3,6 +3,7 @@
 #import "UIDeviceExtensions.h"
 #import "OBASearchController.h"
 #import "OBASphericalGeometryLibrary.h"
+#import "SBJSON.h"
 
 
 static const float kSearchRadius = 400;
@@ -34,6 +35,8 @@ static const float kSearchRadius = 400;
 @synthesize obaJsonDataSource = _obaJsonDataSource;
 @synthesize googleMapsJsonDataSource = _googleMapsJsonDataSource;
 @synthesize locationManager = _locationManager;
+
+@synthesize deviceToken;
 
 - (void) dealloc {
 	[_references release];
@@ -279,6 +282,38 @@ static const float kSearchRadius = 400;
 	return request;
 }
 
+- (id<OBAModelServiceRequest>) requestCurrentVehicleEstimatesForLocations:(NSArray*)locations withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+    
+    NSString * url = [NSString stringWithFormat:@"/api/where/estimate-current-vehicle.json"];
+	
+	NSMutableDictionary * args = [[NSMutableDictionary alloc] init];
+    
+    NSMutableString * data = [[NSMutableString alloc] init];
+
+    for( CLLocation * location in locations ) {
+        if ([data length] > 0) {
+            [data appendString:@"|"];
+        }
+        NSDate * time = location.timestamp;
+        NSTimeInterval interval = [time timeIntervalSince1970];
+        long long t = (interval * 1000);
+        [data appendFormat:@"%lld",t];
+        [data appendString:@","];
+        [data appendFormat:@"%f",location.coordinate.latitude];
+        [data appendString:@","];
+        [data appendFormat:@"%f",location.coordinate.longitude];
+        [data appendString:@","];
+        [data appendFormat:@"%f",location.horizontalAccuracy];
+    }
+    
+    [args setObject:data forKey:@"data"];
+    [data release];
+    
+	SEL selector = @selector(getCurrentVehicleEstimatesV2FromJSON:error:);
+    
+    return [self request:url args:[self argsFromDictionary:args] selector:selector delegate:delegate context:context];
+}
+
 - (id<OBAModelServiceRequest>) planTripFrom:(CLLocationCoordinate2D)from to:(CLLocationCoordinate2D)to time:(NSDate*)time arriveBy:(BOOL)arriveBy options:(NSDictionary*)options delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context {
     
     NSString * url = [NSString stringWithFormat:@"/api/where/plan-trip.json"];
@@ -303,9 +338,82 @@ static const float kSearchRadius = 400;
         
 	SEL selector = @selector(getItinerariesV2FromJSON:error:);
     
+    NSString * argsValue = [self argsFromDictionary:args];
+    [args release];
     
-    return [self request:url args:[self argsFromDictionary:args] selector:selector delegate:delegate context:context];
+    return [self request:url args:argsValue selector:selector delegate:delegate context:context];
     //return [self post:url args:args selector:selector delegate:delegate context:context];
+}
+
+- (id<OBAModelServiceRequest>) registerAlarmForArrivalAndDepartureAtStop:(OBAArrivalAndDepartureInstanceRef*)instance onArrival:(BOOL)onArrival alarmTimeOffset:(NSInteger)alarmTimeOffset notificationOptions:(NSDictionary*)notificationOptions withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+    
+    NSString * stopId = [self escapeStringForUrl:instance.stopId];
+	OBATripInstanceRef * tripInstance = instance.tripInstance;
+	
+	NSString * url = [NSString stringWithFormat:@"/api/where/register-alarm-for-arrival-and-departure-at-stop/%@.json", stopId];
+    
+    NSMutableDictionary * args = [[NSMutableDictionary alloc] init];
+    [args setObject:tripInstance.tripId forKey:@"tripId"];
+    [args setObject:[NSString stringWithFormat:@"%lld",tripInstance.serviceDate] forKey:@"serviceDate"];
+	if( tripInstance.vehicleId )
+		[args setObject:tripInstance.vehicleId forKey:@"vehicleId"];
+	if( instance.stopSequence >= 0 )
+        [args setObject:[NSString stringWithFormat:@"%d",instance.stopSequence] forKey:@"stopSequence"];
+    
+    if( onArrival )
+        [args setObject:@"true" forKey:@"onArrival"];
+    
+    if( alarmTimeOffset != 0 )
+        [args setObject:[NSString stringWithFormat:@"%d",alarmTimeOffset] forKey:@"alarmTimeOffset"];
+    
+    if (notificationOptions) {
+        SBJSON * jsonFactory = [[SBJSON alloc] init];
+        NSError * error = nil;
+        NSString * json =[jsonFactory stringWithObject:notificationOptions error:&error];
+        if( json )
+            [args setObject:json forKey:@"data"];
+        [jsonFactory release];
+    }
+    
+    NSData * token = self.deviceToken;
+    const unsigned char * tokenBuffer = [token bytes];
+    NSMutableString * tokenString = [[NSMutableString alloc] initWithString:@"apns:"];
+    for( NSInteger i=0; i < [token length]; i++)
+        [tokenString appendFormat:@"%02X",(unsigned long)(tokenBuffer[i])];
+    [args setObject:tokenString forKey:@"url"];
+    NSLog(@"Token String: %@ %d",tokenString,[token length]);
+    [tokenString release];
+    
+    SEL selector = @selector(getAlarmIdFromJSON:error:);
+                                   
+    NSString * argsValue = [self argsFromDictionary:args];
+    [args release];
+	
+	return [self request:url args:argsValue selector:selector delegate:delegate context:context];
+}
+
+- (id<OBAModelServiceRequest>) cancelAlarmWithId:(NSString*)alarmId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+
+    alarmId = [self escapeStringForUrl:alarmId];
+	
+	NSString * url = [NSString stringWithFormat:@"/api/where/cancel-alarm/%@.json",alarmId];
+    
+	return [self request:url args:nil selector:nil delegate:delegate context:context];
+}
+
+- (id<OBAModelServiceRequest>) cancelAlarmsWithIds:(NSArray*)alarmIds withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+    
+    NSString * url = @"/api/where/cancel-alarms.json";
+
+    NSMutableString * args = [NSMutableString string];
+    for( NSString * alarmId in alarmIds ) {
+        alarmId = [self escapeStringForUrl:alarmId];
+        if( [args length] > 0 )
+            [args appendString:@"&"];
+        [args appendString:alarmId];
+    }
+    
+	return [self request:url args:args selector:nil delegate:delegate context:context];
 }
 
 @end

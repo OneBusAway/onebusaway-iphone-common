@@ -6,6 +6,7 @@
 @synthesize startTime;
 @synthesize endTime;
 @synthesize probability;
+@synthesize selected;
 @synthesize rawData;
 
 @synthesize legs = _legs;
@@ -32,6 +33,14 @@
 
 - (void) addLeg:(OBALegV2*)leg {
     [_legs addObject:leg];
+}
+
+- (OBALegV2*) firstTransitLeg {
+    for( OBALegV2 * leg in _legs ) {
+        if( leg.transitLeg )
+            return leg;
+    }
+    return nil;
 }
 
 @end

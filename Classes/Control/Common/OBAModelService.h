@@ -43,6 +43,8 @@
 @property (nonatomic,retain) OBAJsonDataSource * googleMapsJsonDataSource;
 @property (nonatomic,retain) OBALocationManager * locationManager;
 
+@property (nonatomic,retain) NSData * deviceToken;
+
 
 - (id<OBAModelServiceRequest>) requestStopForId:(NSString*)stopId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) requestStopWithArrivalsAndDeparturesForId:(NSString*)stopId withMinutesBefore:(NSUInteger)minutesBefore withMinutesAfter:(NSUInteger)minutesAfter withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
@@ -58,6 +60,7 @@
 - (id<OBAModelServiceRequest>) requestAgenciesWithCoverageWithDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 
 - (id<OBAModelServiceRequest>) requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef*)instance withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+
 - (id<OBAModelServiceRequest>) requestTripDetailsForTripInstance:(OBATripInstanceRef*)tripInstance withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 
 - (id<OBAModelServiceRequest>) requestVehicleForId:(NSString*)vehicleId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
@@ -67,6 +70,13 @@
 - (id<OBAModelServiceRequest>) reportProblemWithStop:(OBAReportProblemWithStopV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) reportProblemWithTrip:(OBAReportProblemWithTripV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 
+- (id<OBAModelServiceRequest>) requestCurrentVehicleEstimatesForLocations:(NSArray*)locations withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+
 - (id<OBAModelServiceRequest>) planTripFrom:(CLLocationCoordinate2D)from to:(CLLocationCoordinate2D)to time:(NSDate*)time arriveBy:(BOOL)arriveBy options:(NSDictionary*)options delegate:(id<OBAModelServiceDelegate>)delegate context:(id)context;
+
+- (id<OBAModelServiceRequest>) registerAlarmForArrivalAndDepartureAtStop:(OBAArrivalAndDepartureInstanceRef*)instance onArrival:(BOOL)onArrival alarmTimeOffset:(NSInteger)alarmTimeOffset notificationOptions:(NSDictionary*)notificationOptions withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+
+- (id<OBAModelServiceRequest>) cancelAlarmWithId:(NSString*)alarmId withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>) cancelAlarmsWithIds:(NSArray*)alarmIds withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 
 @end

@@ -37,6 +37,8 @@
 #import "OBAAgencyWithCoverageV2.h"
 #import "OBAPlacemark.h"
 
+#import "OBACurrentVehicleEstimateV2.h"
+
 #import "OBAJsonDigester.h"
 #import "OBASetCoordinatePropertyJsonDigesterRule.h"
 #import "OBASetLocationPropertyJsonDigesterRule.h"
@@ -74,6 +76,8 @@ static NSString * const kReferences = @"references";
 - (void) addArrivalAndDepartureV2RulesWithPrefix:(NSString*)prefix;
 - (void) addTripStatusV2RulesWithPrefix:(NSString*)prefix;
 - (void) addFrequencyV2RulesWithPrefix:(NSString*)prefix;
+
+- (void) addCurrentVehicleEstimateV2RulesWithPrefix:(NSString*)prefix;
 
 - (void) addVehicleStatusV2RulesWithPrefix:(NSString*)prefix;
 
@@ -266,7 +270,22 @@ static NSString * const kReferences = @"references";
 	[digester release];
 	
 	return entry;
+}
+
+- (OBAListWithRangeAndReferencesV2*) getCurrentVehicleEstimatesV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
+        
+    OBAListWithRangeAndReferencesV2 * list = [[[OBAListWithRangeAndReferencesV2 alloc] initWithReferences:_references] autorelease];
 	
+	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
+	[digester addReferencesRulesWithPrefix:@"/references"];
+	[digester addSetPropertyRule:@"limitExceeded" forPrefix:@"/limitExceeded"];
+    [digester addCurrentVehicleEstimateV2RulesWithPrefix:@"/list/[]"];
+	[digester addSetNext:@selector(addValue:) forPrefix:@"/list/[]"];
+	
+	[digester parse:jsonDictionary withRoot:list parameters:[self getDigesterParameters] error:error];
+	[digester release];
+	
+	return list;
 }
 
 - (OBAEntryWithReferencesV2*) getItinerariesV2FromJSON:(NSDictionary*)json error:(NSError**)error {
@@ -283,6 +302,10 @@ static NSString * const kReferences = @"references";
 	
 	return entry;
 
+}
+
+- (NSString*) getAlarmIdFromJSON:(NSString*)alarmId error:(NSError*)error {
+    return alarmId;
 }
 
 - (NSString*) getShapeV2FromJSON:(NSDictionary*)json error:(NSError*)error {
@@ -362,8 +385,9 @@ static NSString * const kReferences = @"references";
 	[self addSetOptionalPropertyRule:@"tripShortName" forPrefix:[self extendPrefix:prefix withValue:@"tripShortName"]];
 	[self addSetOptionalPropertyRule:@"tripHeadsign" forPrefix:[self extendPrefix:prefix withValue:@"tripHeadsign"]];
 	[self addSetPropertyRule:@"serviceId" forPrefix:[self extendPrefix:prefix withValue:@"serviceId"]];
-	[self addSetPropertyRule:@"shapeId" forPrefix:[self extendPrefix:prefix withValue:@"shapeId"]];
-	[self addSetPropertyRule:@"directionId" forPrefix:[self extendPrefix:prefix withValue:@"directionId"]];
+	[self addSetOptionalPropertyRule:@"shapeId" forPrefix:[self extendPrefix:prefix withValue:@"shapeId"]];
+	[self addSetOptionalPropertyRule:@"directionId" forPrefix:[self extendPrefix:prefix withValue:@"directionId"]];
+    [self addSetOptionalPropertyRule:@"blockId" forPrefix:[self extendPrefix:prefix withValue:@"blockId"]];
 	[self addTarget:self selector:@selector(addTripToReferences:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:prefix];	
 }
 
@@ -442,6 +466,7 @@ static NSString * const kReferences = @"references";
     [self addSetDatePropertyRule:@"startTime" withPrefix:[self extendPrefix:prefix withValue:@"startTime"]];
     [self addSetDatePropertyRule:@"endTime" withPrefix:[self extendPrefix:prefix withValue:@"endTime"]];
     [self addSetPropertyRule:@"probability" forPrefix:[self extendPrefix:prefix withValue:@"probability"]];
+    [self addSetPropertyRule:@"selected" forPrefix:[self extendPrefix:prefix withValue:@"selected"]];    
     [self addSetPropertyRule:@"rawData" forPrefix:prefix];
     
     NSString * legPrefix = [self extendPrefix:prefix withValue:@"legs/[]"];
@@ -470,7 +495,7 @@ static NSString * const kReferences = @"references";
     [self addObjectCreateRule:[OBATransitLegV2 class] forPrefix:prefix];
 	[self addSetOptionalPropertyRule:@"tripId" forPrefix:[self extendPrefix:prefix withValue:@"tripId"]];
     [self addSetPropertyRule:@"serviceDate" forPrefix:[self extendPrefix:prefix withValue:@"serviceDate"]];
-    [self addSetOptionalPropertyRule:@"vehicleId" forPrefix:[self extendPrefix:prefix withValue:@"tripId"]];
+    [self addSetOptionalPropertyRule:@"vehicleId" forPrefix:[self extendPrefix:prefix withValue:@"vehicleId"]];
     
     NSString * frequencyPrefix = [self extendPrefix:prefix withValue:@"frequency"];
 	[self addFrequencyV2RulesWithPrefix:frequencyPrefix];
@@ -568,6 +593,17 @@ static NSString * const kReferences = @"references";
 	[self addSetPropertyRule:@"startTime" forPrefix:[self extendPrefix:prefix withValue:@"startTime"]];
 	[self addSetPropertyRule:@"endTime" forPrefix:[self extendPrefix:prefix withValue:@"endTime"]];
 	[self addSetPropertyRule:@"headway" forPrefix:[self extendPrefix:prefix withValue:@"headway"]];
+}
+
+- (void) addCurrentVehicleEstimateV2RulesWithPrefix:(NSString*)prefix {
+
+    [self addObjectCreateRule:[OBACurrentVehicleEstimateV2 class] forPrefix:prefix];
+	[self addSetPropertyRule:@"probability" forPrefix:[self extendPrefix:prefix withValue:@"probability"]];
+    [self addSetPropertyRule:@"debug" forPrefix:[self extendPrefix:prefix withValue:@"debug"]];
+    
+	NSString * tripStatusPrefix = [self extendPrefix:prefix withValue:@"tripStatus"];
+	[self addTripStatusV2RulesWithPrefix:tripStatusPrefix];
+	[self addSetNext:@selector(setTripStatus:) forPrefix:tripStatusPrefix];	
 }
 
 - (void) addVehicleStatusV2RulesWithPrefix:(NSString*)prefix {

@@ -14,6 +14,7 @@
 @property (nonatomic, retain) NSString * serviceId;
 @property (nonatomic, retain) NSString * shapeId;
 @property (nonatomic, retain) NSString * directionId;
+@property (nonatomic, retain) NSString * blockId;
 
 @property (nonatomic, readonly) OBARouteV2 * route;
 

@@ -11,6 +11,7 @@
 @synthesize serviceId;
 @synthesize shapeId;
 @synthesize directionId;
+@synthesize blockId;
 
 - (OBARouteV2*) route {
 	OBAReferencesV2 * refs = self.references;
