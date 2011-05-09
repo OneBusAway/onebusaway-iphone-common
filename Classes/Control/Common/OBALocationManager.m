@@ -121,6 +121,8 @@ static const BOOL kUseLocationTraceInSimulator = FALSE;
 		return;
 	}
 	else {
+         
+        //newLocation = [[[CLLocation alloc] initWithLatitude:47.677553240051175 longitude: -122.31267894201659] autorelease]; // Roosevelt HS
 		//newLocation = [[[CLLocation alloc] initWithLatitude:47.66869649992775  longitude:-122.377610206604] autorelease]; // Ballard
 		newLocation = [[[CLLocation alloc] initWithLatitude:  47.653435121376894 longitude: -122.3056411743164] autorelease]; // UW CSE
 		//newLocation = [[[CLLocation alloc] initWithLatitude:  47.60983759756863 longitude: -122.33782768249512] autorelease];		
