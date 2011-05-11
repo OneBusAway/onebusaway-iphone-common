@@ -14,4 +14,6 @@
 
 - (OBATripInstanceRef*) copyWithNewTripId:(NSString*)newTripId;
 
+- (BOOL) isEqualWithOptionalVehicleId:(OBATripInstanceRef*)ref;
+
 @end

@@ -136,7 +136,11 @@ typedef struct {
 		pointArr[i] = p;
 	}
 	
-	return [MKPolyline polylineWithCoordinates:pointArr count:locations.count];
+	MKPolyline * polyline = [MKPolyline polylineWithCoordinates:pointArr count:locations.count];
+
+    free(pointArr);
+    
+    return polyline;
 }
 
 + (MKPolyline*) decodePolylineStringAsMKPolyline:(NSString*)polylineString {

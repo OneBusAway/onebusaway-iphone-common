@@ -163,6 +163,8 @@ typedef enum  {
     
     _appliedRegionChangeRequests = [NSObject releaseOld:_appliedRegionChangeRequests retainNew:requests];
     
+    [requests release];
+    
     return bestRequest;
 }
 

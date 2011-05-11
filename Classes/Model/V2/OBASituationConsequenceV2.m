@@ -7,8 +7,8 @@
 @synthesize diversionPath;
 
 - (void) dealloc {
-	[self.condition release];
-	[self.diversionPath release];
+	self.condition = nil;
+	self.diversionPath = nil;
 	[super dealloc];
 }
 

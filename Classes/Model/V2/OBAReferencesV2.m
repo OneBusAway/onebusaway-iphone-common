@@ -9,7 +9,8 @@
 @implementation OBAReferencesV2
 
 -(id) init {
-	if( self = [super init] ) {
+    self = [super init];
+	if( self ) {
 		_agencies = [[NSMutableDictionary alloc] init];
 		_routes = [[NSMutableDictionary alloc] init];
 		_stops = [[NSMutableDictionary alloc] init];

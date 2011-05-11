@@ -3,63 +3,64 @@
 
 @implementation OBAArrivalAndDepartureV2
 
-@synthesize routeId = _routeId;
-@synthesize routeShortName = _routeShortName;
-@synthesize tripId = _tripId;
+@synthesize routeId;
+@synthesize routeShortName;
+@synthesize tripId;
 @synthesize serviceDate;
-@synthesize tripHeadsign = _tripHeadsign;
-@synthesize stopId = _stopId;
-@synthesize stopSequence = _stopSequence;
-@synthesize tripStatus = _tripStatus;
+@synthesize tripHeadsign;
+@synthesize stopId;
+@synthesize stopSequence;
+@synthesize tripStatus;
+@synthesize frequency;
 @synthesize distanceFromStop;
-//@synthesize frequency = _frequency;
 
 @synthesize predicted;
 
-@synthesize scheduledArrivalTime = _scheduledArrivalTime;
-@synthesize predictedArrivalTime = _predictedArrivalTime;
+@synthesize scheduledArrivalTime;
+@synthesize predictedArrivalTime;
 
-@synthesize scheduledDepartureTime = _scheduledDepartureTime;
-@synthesize predictedDepartureTime = _predictedDepartureTime;
+@synthesize scheduledDepartureTime;
+@synthesize predictedDepartureTime;
 
 @synthesize situationIds = _situationIds;
 
 - (id) init {
-	if (self = [super init]) {
+    self = [super init];
+	if (self) {
 		_situationIds = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	[_routeId release];
-	[_routeShortName release];
-	[_tripId release];
-	[_tripHeadsign release];
-	[_stopId release];
-	[_frequency release];
+    self.routeId = nil;
+    self.routeShortName = nil;
+    self.tripId = nil;
+    self.tripHeadsign = nil;
+    self.stopId = nil;
+    self.frequency = nil;
 	[_situationIds release];
 	[super dealloc];
 }
 
 - (OBARouteV2*) route {
 	OBAReferencesV2 * refs = [self references];
-	return [refs getRouteForId:_routeId];
+	return [refs getRouteForId:self.routeId];
 }
 
 - (OBAStopV2*) stop {
 	OBAReferencesV2 * refs = [self references];
-	return [refs getStopForId:_stopId];
+	return [refs getStopForId:self.stopId];
 }
 
 - (OBATripV2*) trip {
 	OBAReferencesV2 * refs = [self references];
-	return [refs getTripForId:_tripId];
+	return [refs getTripForId:self.tripId];
 
 }
 
 - (OBAArrivalAndDepartureInstanceRef *) instance {
-	return [OBAArrivalAndDepartureInstanceRef refWithTripInstance:self.tripInstance stopId:_stopId stopSequence:_stopSequence];
+	return [OBAArrivalAndDepartureInstanceRef refWithTripInstance:self.tripInstance stopId:self.stopId stopSequence:self.stopSequence];
 }
 
 - (OBATripInstanceRef *) tripInstance {
@@ -67,11 +68,11 @@
 }
 
 - (long long) bestArrivalTime {
-	return _predictedArrivalTime == 0 ? _scheduledArrivalTime : _predictedArrivalTime;
+	return self.predictedArrivalTime == 0 ? self.scheduledArrivalTime : self.predictedArrivalTime;
 }
 
 - (long long) bestDepartureTime {
-	return _predictedDepartureTime == 0 ? _scheduledDepartureTime : _predictedDepartureTime;
+	return self.predictedDepartureTime == 0 ? self.scheduledDepartureTime : self.predictedDepartureTime;
 }
 
 - (NSArray*) situations {
@@ -91,14 +92,6 @@
 
 - (void) addSituationId:(NSString*)situationId {
 	[_situationIds addObject:situationId];
-}
-
-- (void) setFrequency:(OBAFrequencyV2*)frequency {
-	_frequency = [frequency retain];
-}
-
-- (OBAFrequencyV2*) frequency {
-	return _frequency;
 }
 
 @end

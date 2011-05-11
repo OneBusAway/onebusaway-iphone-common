@@ -8,20 +8,27 @@
 @synthesize stopIds = _stopIds;
 
 - (id) initWithCoder:(NSCoder*)coder {
-	if( self = [super init] ) {
-		_title =  [[coder decodeObjectForKey:@"title"] retain];
-		_subtitle =  [[coder decodeObjectForKey:@"subtitle"] retain];
-		_stopIds =  [[coder decodeObjectForKey:@"stopIds"] retain];
+    self = [super init];
+	if( self ) {
+		self.title =  [[coder decodeObjectForKey:@"title"] retain];
+		self.subtitle =  [[coder decodeObjectForKey:@"subtitle"] retain];
+		self.stopIds =  [[coder decodeObjectForKey:@"stopIds"] retain];
 	}
 	return self;
 }
 
+- (void) dealloc {
+    self.title = nil;
+    self.subtitle = nil;
+    self.stopIds = nil;
+    [super dealloc];
+}
 #pragma mark NSCoder Methods
 
 - (void) encodeWithCoder: (NSCoder *)coder {
-	[coder encodeObject:_title forKey:@"title"];
-	[coder encodeObject:_subtitle forKey:@"subtitle"];
-	[coder encodeObject:_stopIds forKey:@"stopIds"];
+	[coder encodeObject:self.title forKey:@"title"];
+	[coder encodeObject:self.subtitle forKey:@"subtitle"];
+	[coder encodeObject:self.stopIds forKey:@"stopIds"];
 }
 
 @end

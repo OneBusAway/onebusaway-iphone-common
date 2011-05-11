@@ -3,17 +3,17 @@
 
 @implementation OBAAgencyWithCoverageV2
 
-@synthesize agencyId = _agencyId;
-@synthesize coordinate = _coordinate;
+@synthesize agencyId;
+@synthesize coordinate;
 
 - (void) dealloc {
-	[_agencyId release];
+	self.agencyId = nil;
 	[super dealloc];
 }
 
 - (OBAAgencyV2*) agency {
 	OBAReferencesV2 * refs = [self references];
-	return [refs getAgencyForId:_agencyId];
+	return [refs getAgencyForId:self.agencyId];
 }
 
 - (NSComparisonResult) compareUsingAgencyName:(OBAAgencyWithCoverageV2*)obj {

@@ -6,7 +6,8 @@
 @synthesize sortTripsByType = _sortTripsByType;
 @synthesize routeFilter = _routeFilter;
 - (id) init {
-	if( self = [super init] ) {
+    self = [super init];
+	if( self ) {
 		_sortTripsByType = OBASortTripsByDepartureTimeV2;
 		_routeFilter = [[NSMutableSet alloc] init];
 	}
@@ -14,7 +15,8 @@
 }
 
 - (id) initWithStopPreferences:(OBAStopPreferencesV2*)preferences {
-	if( self = [super init] ) {
+    self = [super init];
+	if( self ) {
 		_sortTripsByType = preferences.sortTripsByType;
 		_routeFilter = [[NSMutableSet alloc] initWithSet:[preferences routeFilter]];
 	}
@@ -22,7 +24,8 @@
 }
 
 - (id) initWithCoder:(NSCoder*)coder {
-	if( self = [super init] ) {
+    self = [super init];
+	if( self ) {
 		NSNumber * sortTripsByType = [coder decodeObjectForKey:@"sortTripsByType"];
 		_sortTripsByType = [sortTripsByType intValue];
 		_routeFilter =  [[coder decodeObjectForKey:@"routeFilter"] retain];

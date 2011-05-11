@@ -3,8 +3,7 @@
 
 
 @interface OBAAgencyWithCoverageV2 : OBAHasReferencesV2 {
-	NSString * _agencyId;
-	CLLocationCoordinate2D _coordinate;
+
 }
 
 @property (nonatomic,retain) NSString * agencyId;

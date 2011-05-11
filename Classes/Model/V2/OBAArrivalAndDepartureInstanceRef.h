@@ -15,4 +15,6 @@
 @property (nonatomic,readonly) NSString * stopId;
 @property (nonatomic,readonly) NSInteger stopSequence;
 
+- (BOOL) isEqualWithOptionalVehicleId:(OBAArrivalAndDepartureInstanceRef*)ref;
+
 @end

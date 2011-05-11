@@ -9,7 +9,8 @@
 @synthesize situationIds = _situationIds;
 
 -(id) initWithReferences:(OBAReferencesV2*)refs {
-	if( self = [super initWithReferences:refs] ) {
+    self = [super initWithReferences:refs];
+	if( self ) {
 		_arrivalsAndDepartures = [[NSMutableArray alloc] init];
 		_situationIds = [[NSMutableArray alloc] init];
 	}
@@ -17,7 +18,7 @@
 }
 
 -(void) dealloc {
-	[_stopId release];
+	self.stopId = nil;
 	[_arrivalsAndDepartures release];
 	[_situationIds release];
 	[super dealloc];
@@ -25,7 +26,7 @@
 
 -(OBAStopV2*) stop {
 	OBAReferencesV2 * refs = [self references];
-	return [refs getStopForId:_stopId];
+	return [refs getStopForId:self.stopId];
 }
 
 - (NSArray*) situations {

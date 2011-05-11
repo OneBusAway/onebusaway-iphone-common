@@ -8,7 +8,8 @@
 @synthesize values = _values;
 
 - (id) initWithReferences:(OBAReferencesV2*)refs {
-	if (self = [super initWithReferences:refs]) {
+    self = [super initWithReferences:refs];
+	if (self) {
 		_values = [[NSMutableArray alloc] init];
 	}
 	return self;

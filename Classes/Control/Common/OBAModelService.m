@@ -210,6 +210,46 @@ static const float kSearchRadius = 400;
 	return [self request:url args:args selector:selector delegate:delegate context:context];
 }
 
+- (id<OBAModelServiceRequest>) reportProblemWithPlannedTrip:(OBAReportProblemWithPlannedTripV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+ 
+    NSString * url = [NSString stringWithFormat:@"/api/where/report-problem-with-planned-trip.json"];
+
+    NSMutableDictionary * args = [[NSMutableDictionary alloc] init];
+    
+    CLLocationCoordinate2D from = problem.fromLocation.coordinate;
+    CLLocationCoordinate2D to = problem.toLocation.coordinate;
+    BOOL arriveBy = problem.arriveBy;
+    NSDate * t = problem.time;
+        
+    [args setObject:[NSString stringWithFormat:@"%lld",t] forKey:@"time"];
+    [args setObject:[NSString stringWithFormat:@"%f",from.latitude] forKey:@"latFrom"];
+    [args setObject:[NSString stringWithFormat:@"%f",from.longitude] forKey:@"lonFrom"];
+    [args setObject:[NSString stringWithFormat:@"%f",to.latitude] forKey:@"latTo"];
+    [args setObject:[NSString stringWithFormat:@"%f",to.longitude] forKey:@"lonTo"];
+    [args setObject:(arriveBy ? @"true" : @"false") forKey:@"arriveBy"];
+    [args setObject:@"true" forKey:@"useRealTime"];
+	
+	if( problem.data )
+		[args setObject:problem.data forKey:@"data"];
+	
+	if( problem.userComment )
+		[args setObject:problem.userComment forKey:@"userComment"];
+	
+	CLLocation * location = problem.userLocation;
+	if( location ) {
+		CLLocationCoordinate2D coord = location.coordinate;
+		[args setObject:[NSNumber numberWithDouble:coord.latitude] forKey:@"userLat"];
+		[args setObject:[NSNumber numberWithDouble:coord.longitude] forKey:@"userLon"];
+		[args setObject:[NSNumber numberWithDouble:location.horizontalAccuracy] forKey:@"userLocationAccuracy"];
+	}
+	
+	SEL selector = nil;
+	
+	OBAModelServiceRequest * request = [self post:url args:args selector:selector delegate:delegate context:context];
+	request.checkCode = FALSE;
+	return request;
+}
+
 - (id<OBAModelServiceRequest>) reportProblemWithStop:(OBAReportProblemWithStopV2*)problem withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
 	
 	NSString * url = [NSString stringWithFormat:@"/api/where/report-problem-with-stop.json"];

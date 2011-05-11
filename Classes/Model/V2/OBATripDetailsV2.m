@@ -9,13 +9,17 @@
 @synthesize status;
 
 - (id) initWithReferences:(OBAReferencesV2*)refs {
-	if( self = [super initWithReferences:refs]) {
+    self = [super initWithReferences:refs];
+	if( self ) {
 		_situationIds = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
 - (void) dealloc {
+    self.tripId = nil;
+    self.schedule = nil;
+    self.status = nil;
 	[_situationIds release];
 	[super dealloc];
 }

@@ -3,11 +3,7 @@
 
 
 @interface OBARouteV2 :  OBAHasReferencesV2 {
-	NSString * _routeId;
-	NSString * _shortName;
-	NSString * _longName;
-	NSNumber * _routeType;
-	NSString * _agencyId;
+
 }
 
 @property (nonatomic, retain) NSString * routeId;

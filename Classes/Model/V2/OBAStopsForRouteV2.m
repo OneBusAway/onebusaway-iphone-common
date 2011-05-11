@@ -7,7 +7,8 @@
 @synthesize routeId = _routeId;
 
 - (id) initWithReferences:(OBAReferencesV2*)refs {
-	if(self = [super initWithReferences:refs]) {
+    self = [super initWithReferences:refs];
+	if (self) {
 		_stopIds = [[NSMutableArray alloc] init];
 		_polylines = [[NSMutableArray alloc] init];
 	}
@@ -34,7 +35,7 @@
 }
 
 - (NSArray*) stops {
-	NSMutableArray * stops = [[NSMutableArray alloc] init];
+	NSMutableArray * stops = [[[NSMutableArray alloc] init] autorelease];
 	OBAReferencesV2 * refs = [self references];
 	for( NSString * stopId in _stopIds ) {
 		OBAStopV2 * stop = [refs getStopForId:stopId];

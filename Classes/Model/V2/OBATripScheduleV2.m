@@ -10,6 +10,15 @@
 @synthesize previousTripId;
 @synthesize nextTripId;
 
+- (void) dealloc {
+    self.timeZone = nil;
+    self.stopTimes = nil;
+    self.frequency = nil;
+    self.previousTripId = nil;
+    self.nextTripId = nil;
+    [super dealloc];    
+}
+
 - (OBATripV2*) previousTrip {
 	OBAReferencesV2 * refs = self.references;
 	return [refs getTripForId:self.previousTripId];

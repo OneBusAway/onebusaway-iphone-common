@@ -8,7 +8,7 @@
 - (id) initWithReferences:(OBAReferencesV2*)refs {
     self = [super init];
 	if( self ) {
-		self.references = refs;
+		_references = [refs retain];
 	}
 	return self;
 }

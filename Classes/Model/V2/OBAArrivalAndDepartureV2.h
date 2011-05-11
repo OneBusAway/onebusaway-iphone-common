@@ -9,24 +9,6 @@
 
 
 @interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2 {
-	NSString * _routeId;
-	NSString * _routeShortName;
-	
-	NSString * _tripId;
-	NSString * _tripHeadsign;
-	
-	NSString * _stopId;
-	NSInteger _stopSequence;
-	
-	OBATripStatusV2 * _tripStatus;
-	
-	OBAFrequencyV2 * _frequency;
-	
-	long long _scheduledArrivalTime;
-	long long _predictedArrivalTime;
-	long long _scheduledDepartureTime;
-	long long _predictedDepartureTime;	
-	
 	NSMutableArray * _situationIds;
 }
 
