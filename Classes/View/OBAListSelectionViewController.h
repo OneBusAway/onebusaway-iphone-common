@@ -9,6 +9,8 @@
 @property (nonatomic,assign) id target;
 @property (nonatomic) SEL action;
 
+@property (nonatomic) BOOL exitOnSelection;
+
 - (id)initWithValues:(NSArray*)values selectedIndex:(NSIndexPath*)selectedIndex;
 
 
