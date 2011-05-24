@@ -9,6 +9,7 @@
 @synthesize checkedItem = _checkedItem;
 @synthesize target = _target;
 @synthesize action = _action;
+@synthesize exitOnSelection;
 
 - (id)initWithValues:(NSArray*)values selectedIndex:(NSIndexPath*)selectedIndex {
     if ((self = [super initWithStyle:UITableViewStyleGrouped])) {
@@ -63,7 +64,10 @@
 	
 	if( _target && _action && [_target respondsToSelector:_action] )
 		[_target performSelector:_action withObject:indexPath];
-								 
+    
+    if (self.exitOnSelection) {
+        [self.navigationController popViewControllerAnimated:TRUE];
+    }								 
 }
 
 
