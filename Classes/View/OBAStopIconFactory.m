@@ -5,7 +5,9 @@
 @interface OBAStopIconFactory (Private)
 
 - (void) loadIcons;
+
 - (NSString*) getRouteIconTypeForStop:(OBAStopV2*)stop;
+- (NSString*) getRouteIconTypeForRouteTypes:(NSSet*)routeTypes;
 - (NSString*) getRouteIconTypeForRoute:(OBARouteV2*)route;
 
 @end
@@ -46,8 +48,26 @@
 }
 
 - (UIImage*) getModeIconForRoute:(OBARouteV2*)route {
+    return [self getModeIconForRoute:route selected:FALSE];
+}
+
+- (UIImage*) getModeIconForRoute:(OBARouteV2*)route selected:(BOOL)selected {
     NSString * type = [self getRouteIconTypeForRoute:route];
-    return [UIImage imageNamed:[NSString stringWithFormat:@"Mode-%@.png",type]];
+    return [self getModeIconForRouteIconType:type selected:selected];
+}
+
+- (UIImage*) getModeIconForRouteIconType:(NSString*)routeType selected:(BOOL)selected {
+    NSString * format = selected ? @"Mode-%@-Selected.png" : @"Mode-%@.png";
+    return [UIImage imageNamed:[NSString stringWithFormat:format,routeType]];
+}
+
+- (NSString*) getRouteIconTypeForRoutes:(NSArray*)routes {
+    NSMutableSet * routeTypes = [NSMutableSet set];
+	for( OBARouteV2 * route in routes ) {
+		if( route.routeType )
+			[routeTypes addObject:route.routeType];
+	}
+	return [self getRouteIconTypeForRouteTypes:routeTypes];
 }
 
 @end
@@ -82,7 +102,11 @@
 		if( route.routeType )
 			[routeTypes addObject:route.routeType];
 	}
-	
+	return [self getRouteIconTypeForRouteTypes:routeTypes];
+}
+
+- (NSString*) getRouteIconTypeForRouteTypes:(NSSet*)routeTypes {
+    
 	// Heay rail dominations
 	if( [routeTypes containsObject:[NSNumber numberWithInt:4]] )
 		return @"Ferry";
@@ -91,7 +115,7 @@
 	else if( [routeTypes containsObject:[NSNumber numberWithInt:0]] )
 		return @"LightRail";
 	else
-		return @"Bus";
+		return @"Bus";    
 }
 
 - (NSString*) getRouteIconTypeForRoute:(OBARouteV2*)route {

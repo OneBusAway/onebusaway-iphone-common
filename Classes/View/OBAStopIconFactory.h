@@ -9,5 +9,9 @@
 
 - (UIImage*) getIconForStop:(OBAStopV2*)stop;
 - (UIImage*) getModeIconForRoute:(OBARouteV2*)route;
+- (UIImage*) getModeIconForRoute:(OBARouteV2*)route selected:(BOOL)selected;
+- (UIImage*) getModeIconForRouteIconType:(NSString*)routeType selected:(BOOL)selected;
+
+- (NSString*) getRouteIconTypeForRoutes:(NSArray*)routes;
 
 @end
