@@ -1,5 +1,4 @@
 #import "OBATripScheduleV2.h"
-#import "OBACommon.h"
 
 
 @implementation OBATripScheduleV2

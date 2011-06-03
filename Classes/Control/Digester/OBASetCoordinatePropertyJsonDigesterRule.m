@@ -27,11 +27,23 @@
 
 @implementation OBASetCoordinatePropertyJsonDigesterRule
 
+@synthesize latJsonName;
+@synthesize lonJsonName;
+
 - (id) initWithPropertyName:(NSString*)propertyName method:(OBASetCoordinatePropertyMethod) method {
-	if( self = [super initWithPropertyName:propertyName] ) {
+    self = [super initWithPropertyName:propertyName];
+	if( self ) {
 		_method = method;
+        self.latJsonName = @"lat";
+        self.lonJsonName = @"lon";
 	}
 	return self;
+}
+
+- (void) dealloc {
+    self.latJsonName = nil;
+    self.lonJsonName = nil;
+    [super dealloc];
 }
 
 - (void) begin:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
@@ -73,8 +85,8 @@
 	
 	NSDictionary * dictionary = (NSDictionary*)value;
 	
-	NSNumber * latitude = [dictionary objectForKey:@"lat"];
-	NSNumber * longitude = [dictionary objectForKey:@"lon"];
+	NSNumber * latitude = [dictionary objectForKey:self.latJsonName];
+	NSNumber * longitude = [dictionary objectForKey:self.lonJsonName];
 	
 	[self setCoordinate:context name:name lat:latitude lon:longitude];
 }

@@ -30,11 +30,14 @@
 }
 
 - (UIImage*) getIconForStop:(OBAStopV2*)stop {
+    return [self getIconForStop:stop includeDirection:TRUE];
+}
 
-	NSString * routeIconType = [self getRouteIconTypeForStop:stop];
+- (UIImage*) getIconForStop:(OBAStopV2*)stop includeDirection:(BOOL)includeDirection {
+    NSString * routeIconType = [self getRouteIconTypeForStop:stop];
 	NSString * direction = @"";
 	
-	if( stop.direction )
+	if( includeDirection && stop.direction )
 		direction = stop.direction;
 	
 	NSString * key = [NSString stringWithFormat:@"%@StopIcon%@",routeIconType,direction];

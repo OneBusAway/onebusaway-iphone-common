@@ -15,7 +15,6 @@
  */
 
 #import "OBALocationManager.h"
-#import "OBACommon.h"
 #import "OBALogger.h"
 
 static const NSTimeInterval kSuccessiveLocationComparisonWindow = 3;

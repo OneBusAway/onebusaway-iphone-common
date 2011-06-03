@@ -16,7 +16,6 @@
 
 #import "OBAModelFactory.h"
 #import "OBALogger.h"
-#import "OBACommon.h"
 
 #import "OBAReferencesV2.h"
 #import "OBAAgencyV2.h"
@@ -232,9 +231,35 @@ static NSString * const kReferences = @"references";
 	[digester addSetPropertyRule:@"address" forPrefix:@"/Placemark/[]/address"];
 	[digester addSetNext:@selector(addObject:) forPrefix:@"/Placemark/[]"];
 	
-	OBASetCoordinatePropertyJsonDigesterRule * rule = [[OBASetCoordinatePropertyJsonDigesterRule alloc] initWithPropertyName:@"coordinate"];
+	OBASetCoordinatePropertyJsonDigesterRule * rule = [[OBASetCoordinatePropertyJsonDigesterRule alloc] initWithPropertyName:@"coordinate" method:OBASetCoordinatePropertyMethodArray];
+    
 	[digester addRule:rule forPrefix:@"/Placemark/[]/Point/coordinates"];
 	[rule release];
+	
+	[digester parse:jsonObject withRoot:placemarks parameters:[self getDigesterParameters] error:error];
+	[digester release];
+	
+	return placemarks;
+}
+
+- (OBAPlacemarks*) getPlacemarksFromGooglePlacesJSONObject:(id)jsonObject error:(NSError**)error {
+
+    OBAPlacemarks * placemarks = [[[OBAPlacemarks alloc] init] autorelease];
+	
+	OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
+	[digester addObjectCreateRule:[OBAPlacemark class] forPrefix:@"/results/[]"];
+    [digester addSetPropertyRule:@"name" forPrefix:@"/results/[]/name"];
+	[digester addSetPropertyRule:@"address" forPrefix:@"/results/[]/vicinity"];
+    [digester addSetPropertyRule:@"icon" forPrefix:@"/results/[]/icon"];
+	
+	OBASetCoordinatePropertyJsonDigesterRule * rule = [[OBASetCoordinatePropertyJsonDigesterRule alloc] initWithPropertyName:@"coordinate" method:OBASetCoordinatePropertyMethodLatLon];
+    rule.lonJsonName = @"lng";
+	[digester addRule:rule forPrefix:@"/results/[]/geometry/location"];
+	[rule release];
+    
+    [digester addSetNext:@selector(addPlacemark:) forPrefix:@"/results/[]"];
+    
+    [digester addSetNext:@selector(addAttribution:) forPrefix:@"/html_attributions/[]"];
 	
 	[digester parse:jsonObject withRoot:placemarks parameters:[self getDigesterParameters] error:error];
 	[digester release];

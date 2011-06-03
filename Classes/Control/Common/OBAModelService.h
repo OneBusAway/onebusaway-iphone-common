@@ -34,6 +34,7 @@
 	OBAModelFactory * _modelFactory;
 	OBAJsonDataSource * _obaJsonDataSource;
 	OBAJsonDataSource * _googleMapsJsonDataSource;
+    OBAJsonDataSource * _googlePlacesJsonDataSource;
 	OBALocationManager * _locationManager;
 }
 
@@ -42,6 +43,7 @@
 @property (nonatomic,retain) OBAModelFactory * modelFactory;
 @property (nonatomic,retain) OBAJsonDataSource * obaJsonDataSource;
 @property (nonatomic,retain) OBAJsonDataSource * googleMapsJsonDataSource;
+@property (nonatomic,retain) OBAJsonDataSource * googlePlacesJsonDataSource;
 @property (nonatomic,retain) OBALocationManager * locationManager;
 
 @property (nonatomic,retain) NSData * deviceToken;
@@ -57,6 +59,8 @@
 
 - (id<OBAModelServiceRequest>) requestRoutesForQuery:(NSString*)routeQuery withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 - (id<OBAModelServiceRequest>) placemarksForAddress:(NSString*)address withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+- (id<OBAModelServiceRequest>) placemarksForPlace:(NSString*)name withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
+
 
 - (id<OBAModelServiceRequest>) requestAgenciesWithCoverageWithDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context;
 

@@ -19,8 +19,10 @@
 
 @implementation OBAPlacemark
 
+@synthesize name = _name;
 @synthesize address = _address;
 @synthesize coordinate = _coordinate;
+@synthesize icon = _icon;
 
 -(id) initWithAddress:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate {
     self = [super init];
@@ -34,7 +36,9 @@
 - (id) initWithCoder:(NSCoder*)coder {
     self = [super init];
 	if( self ) {
+        _name = [[coder decodeObjectForKey:@"name"] retain];
 		_address =  [[coder decodeObjectForKey:@"address"] retain];
+        _icon =  [[coder decodeObjectForKey:@"icon"] retain];
 		NSData * data = [coder decodeObjectForKey:@"coordinate"];
 		[data getBytes:&_coordinate];
 	}
@@ -42,24 +46,32 @@
 }
 
 - (void) dealloc {
+    [_name release];
 	[_address release];
+    [_icon release];
 	[super dealloc];
+}
+
+- (CLLocation*) location {
+    return [[[CLLocation alloc] initWithLatitude:_coordinate.latitude longitude:_coordinate.longitude] autorelease];
 }
 
 #pragma mark MKAnnotation
 
 - (NSString*) title {
+    if( _name )
+        return _name;
 	return _address;
 }
 
 #pragma mark NSCoder Methods
 
 - (void) encodeWithCoder: (NSCoder *)coder {
+    [coder encodeObject:_name forKey:@"name"];
 	[coder encodeObject:_address forKey:@"address"];
+    [coder encodeObject:_icon forKey:@"icon"];
 	NSData * data = [NSData dataWithBytes:&_coordinate length:sizeof(CLLocationCoordinate2D)];
 	[coder encodeObject:data forKey:@"coordinate"];
 }
-
-
 
 @end

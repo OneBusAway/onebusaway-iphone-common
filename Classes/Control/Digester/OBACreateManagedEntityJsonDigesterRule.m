@@ -15,7 +15,6 @@
  */
 
 #import "OBACreateManagedEntityJsonDigesterRule.h"
-#import "OBACommon.h"
 #import "OBALogger.h"
 #import "OBAEntityManager.h"
 

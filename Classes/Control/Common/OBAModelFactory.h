@@ -19,6 +19,7 @@
 #import "OBAListWithRangeAndReferencesV2.h"
 #import "OBAArrivalsAndDeparturesForStopV2.h"
 #import "OBAStopsForRouteV2.h"
+#import "OBAPlacemarks.h"
 
 
 @interface OBAModelFactory : NSObject {
@@ -38,6 +39,7 @@
 - (OBAArrivalsAndDeparturesForStopV2*) getArrivalsAndDeparturesForStopV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error;
 - (OBAEntryWithReferencesV2*) getArrivalAndDepartureForStopV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error;
 - (NSArray*) getPlacemarksFromJSONObject:(id)jsonObject error:(NSError**)error;
+- (OBAPlacemarks*) getPlacemarksFromGooglePlacesJSONObject:(id)jsonObject error:(NSError**)error;
 - (OBAEntryWithReferencesV2*) getTripDetailsV2FromJSON:(NSDictionary*)json error:(NSError**)error;
 
 - (OBAEntryWithReferencesV2*) getVehicleStatusV2FromJSON:(NSDictionary*)json error:(NSError**)error;

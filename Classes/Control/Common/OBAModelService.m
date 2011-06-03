@@ -34,6 +34,7 @@ static const float kSearchRadius = 400;
 @synthesize references = _references;
 @synthesize obaJsonDataSource = _obaJsonDataSource;
 @synthesize googleMapsJsonDataSource = _googleMapsJsonDataSource;
+@synthesize googlePlacesJsonDataSource = _googlePlacesJsonDataSource;
 @synthesize locationManager = _locationManager;
 
 @synthesize deviceToken;
@@ -143,6 +144,25 @@ static const float kSearchRadius = 400;
 	SEL selector = @selector(getPlacemarksFromJSONObject:error:);
 	
 	return [self request:_googleMapsJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
+}
+
+- (id<OBAModelServiceRequest>) placemarksForPlace:(NSString*)name withDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
+    
+    // handle search
+	CLLocation * location = [self currentOrDefaultLocationToSearch];
+	CLLocationCoordinate2D coord = location.coordinate;
+    
+	name = [self escapeStringForUrl:name];
+    
+    NSInteger radius = location.horizontalAccuracy;
+    if( radius == 0 )
+        radius = kSearchRadius;
+	
+	NSString * url = @"/maps/api/place/search/json";
+	NSString * args = [NSString stringWithFormat:@"location=%f,%f&radius=%d&name=%@&sensor=true", coord.latitude, coord.longitude, radius, name];
+	SEL selector = @selector(getPlacemarksFromGooglePlacesJSONObject:error:);
+	
+	return [self request:_googlePlacesJsonDataSource url:url args:args selector:selector delegate:delegate context:context];
 }
 
 - (id<OBAModelServiceRequest>) requestAgenciesWithCoverageWithDelegate:(id<OBAModelServiceDelegate>)delegate withContext:(id)context {
