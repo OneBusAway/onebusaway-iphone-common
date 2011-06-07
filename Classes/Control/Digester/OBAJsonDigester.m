@@ -228,7 +228,8 @@
 @synthesize error = _error;
 
 - (id) initWithVerbose:(BOOL)verbose {
-	if( self = [super init] ) {
+    self = [super init];
+	if( self ) {
 		_stack = [[NSMutableArray alloc] init];
 		_parameters = [[NSMutableDictionary alloc] init];
 		_verbose = verbose;
@@ -248,7 +249,12 @@
 }
 
 -(id) peek:(NSUInteger)index {
-	return [_stack objectAtIndex:([_stack count]-1-index)];
+    NSInteger objIndex = [_stack count] - 1 - index;
+    if (objIndex < 0 || objIndex > [_stack count]) {
+        NSLog(@"OBAJsonDigesterContextImpl: peek - index out of bounds: %d => %d", index, objIndex);
+        return nil;
+    }
+	return [_stack objectAtIndex:objIndex];
 }
 
 -(void) popValue {

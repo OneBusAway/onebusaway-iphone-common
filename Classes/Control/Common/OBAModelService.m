@@ -258,14 +258,17 @@ static const float kSearchRadius = 400;
 	CLLocation * location = problem.userLocation;
 	if( location ) {
 		CLLocationCoordinate2D coord = location.coordinate;
-		[args setObject:[NSNumber numberWithDouble:coord.latitude] forKey:@"userLat"];
-		[args setObject:[NSNumber numberWithDouble:coord.longitude] forKey:@"userLon"];
-		[args setObject:[NSNumber numberWithDouble:location.horizontalAccuracy] forKey:@"userLocationAccuracy"];
+		[args setObject:[NSString stringWithFormat:@"%f",coord.latitude] forKey:@"userLat"];
+		[args setObject:[NSString stringWithFormat:@"%f",coord.longitude] forKey:@"userLon"];
+		[args setObject:[NSString stringWithFormat:@"%f",location.horizontalAccuracy] forKey:@"userLocationAccuracy"];
 	}
 	
 	SEL selector = nil;
+    
+    NSString * argsValue = [self argsFromDictionary:args];
+    [args release];
 	
-	OBAModelServiceRequest * request = [self post:url args:args selector:selector delegate:delegate context:context];
+	OBAModelServiceRequest * request = [self request:url args:argsValue selector:selector delegate:delegate context:context];
 	request.checkCode = FALSE;
 	return request;
 }

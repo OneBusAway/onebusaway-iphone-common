@@ -259,7 +259,7 @@ static NSString * const kReferences = @"references";
     
     [digester addSetNext:@selector(addPlacemark:) forPrefix:@"/results/[]"];
     
-    [digester addSetNext:@selector(addAttribution:) forPrefix:@"/html_attributions/[]"];
+    [digester addCallMethodRule:@selector(addAttribution:) forPrefix:@"/html_attributions/[]"];
 	
 	[digester parse:jsonObject withRoot:placemarks parameters:[self getDigesterParameters] error:error];
 	[digester release];
