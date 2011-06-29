@@ -25,8 +25,13 @@
 @property (nonatomic) BOOL lastRegionChangeWasProgramatic;
 
 - (void) setRegion:(MKCoordinateRegion)region;
+- (void) setRegion:(MKCoordinateRegion)region changeWasProgramatic:(BOOL)changeWasProgramatic;
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated;
-- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated;
+
+/**
+ * @return TRUE, if applying a pending region-change request, otherwise false
+ */
+- (BOOL)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated;
 
 @end

@@ -67,11 +67,15 @@ typedef enum  {
     [self setMapRegion:region requestType:OBARegionChangeRequestTypeProgramatic];
 }
 
+- (void) setRegion:(MKCoordinateRegion)region changeWasProgramatic:(BOOL)changeWasProgramatic {
+    [self setMapRegion:region requestType:(changeWasProgramatic ? OBARegionChangeRequestTypeProgramatic : OBARegionChangeRequestTypeUser)];
+}
+
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     _currentlyChangingRegion = TRUE;
 }
 
-- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+- (BOOL)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
     
     _currentlyChangingRegion = FALSE;
     
@@ -100,12 +104,17 @@ typedef enum  {
     _lastRegionChangeWasProgramatic = (type == OBARegionChangeRequestTypeProgramatic);
     //OBALogDebug(@"regionDidChangeAnimated: setting _lastRegionChangeWasProgramatic to %d", _lastRegionChangeWasProgramatic);
     
+    BOOL applyingPendingRequest = FALSE;
+    
     if( _lastRegionChangeWasProgramatic && _pendingRegionChangeRequest ) {
         //OBALogDebug(@"applying pending reqest");
         [self setMapRegionWithRequest:_pendingRegionChangeRequest];
+        applyingPendingRequest = TRUE;
     }
     
     _pendingRegionChangeRequest = [NSObject releaseOld:_pendingRegionChangeRequest retainNew:nil];
+
+    return applyingPendingRequest;
 }
 
 @end

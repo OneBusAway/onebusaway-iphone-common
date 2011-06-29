@@ -26,20 +26,6 @@ extern const NSInteger kOBAErrorMissingFieldInData;
  */
 extern NSString * const OBAApplicationDidCompleteNetworkRequestNotification;
 
-typedef enum {
-	OBANavigationTargetTypeRoot=0,
-	OBANavigationTargetTypeSearch,
-	OBANavigationTargetTypeSearchResults,
-	OBANavigationTargetTypeBookmarks,
-	OBANavigationTargetTypeRecentStops,
-	OBANavigationTargetTypeStop,
-	OBANavigationTargetTypeEditBookmark,
-	OBANavigationTargetTypeEditStopPreferences,
-	OBANavigationTargetTypeSettings,
-	OBANavigationTargetTypeContactUs,
-	OBANavigationTargetTypeAgencies
-} OBANavigationTargetType;
-
 
 #define OBA_RELEASE_SAFELY(__POINTER) { [__POINTER release]; __POINTER = nil; }
 
