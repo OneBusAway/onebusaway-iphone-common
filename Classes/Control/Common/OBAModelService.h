@@ -6,7 +6,6 @@
 
 #import "OBAReferencesV2.h"
 #import "OBAStopV2.h"
-#import "OBANavigationTarget.h"
 #import "OBAPlacemark.h"
 #import "OBATripInstanceRef.h"
 #import "OBAArrivalAndDepartureInstanceRef.h"
