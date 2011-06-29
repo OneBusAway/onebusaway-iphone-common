@@ -14,7 +14,7 @@ static const float kStopForRouteAnnotationMinScaleDistance = 8000;
 	NSString * name = arrivalAndDeparture.routeShortName;
 	if( name )
 		return name;
-	return [self getRouteShortNameForRoute:arrivalAndDeparture.route];
+    return [self getRouteShortNameForTrip:arrivalAndDeparture.trip];
 }
 
 + (NSString*) getTripHeadsignForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
