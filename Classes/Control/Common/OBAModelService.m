@@ -3,7 +3,7 @@
 #import "UIDeviceExtensions.h"
 #import "OBASearchController.h"
 #import "OBASphericalGeometryLibrary.h"
-#import "SBJSON.h"
+#import "SBJSON/SBJson.h"
 
 
 static const float kSearchRadius = 400;
@@ -430,12 +430,12 @@ static const float kSearchRadius = 400;
         [args setObject:[NSString stringWithFormat:@"%d",alarmTimeOffset] forKey:@"alarmTimeOffset"];
     
     if (notificationOptions) {
-        SBJSON * jsonFactory = [[SBJSON alloc] init];
+        SBJsonWriter * writer = [[SBJsonWriter alloc] init];
         NSError * error = nil;
-        NSString * json =[jsonFactory stringWithObject:notificationOptions error:&error];
+        NSString * json =[writer stringWithObject:notificationOptions error:&error];
         if( json )
             [args setObject:json forKey:@"data"];
-        [jsonFactory release];
+        [writer release];
     }
     
     NSData * token = self.deviceToken;

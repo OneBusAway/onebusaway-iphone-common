@@ -16,7 +16,7 @@
 
 #import "OBAJsonDataSource.h"
 #import "OBALogger.h"
-#import "SBJSON.h"
+#import "SBJSON/SBJson.h"
 
 
 /****
@@ -295,7 +295,7 @@
 		_canceled = TRUE;
 		
 		NSString * v = [[NSString alloc] initWithData:_jsonData encoding:_responseEncoding];
-		SBJSON * parser = [[SBJSON alloc] init];
+        SBJsonParser * parser = [[SBJsonParser alloc] init];
 		NSError * error = nil;
 		id jsonObject = nil;
 
